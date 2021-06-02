@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="js/echarts.js"></script>
+    <script type="text/javascript" src="js/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="jsonTool.js"></script>
+</head>
+<body id="bg" style="height:670px;width: 1288px;" >
+<div id="container" style=" width:90%;height:80%;position: absolute;margin-left: 50px;margin-top:50px;" ></div>
+<script type="text/javascript">
+    document.getElementById('bg').style.backgroundImage="url('.//static//bg.png')";
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    // var selectedArray = {};//可以定义一个Object对象
+    // selectedArray ['安徽'] = false;
+    // selectedArray ['甘肃'] = false;
+    // selectedArray ['广西'] = false;
+    // selectedArray ['贵州'] = false;
+    // selectedArray ['海南'] = false;
+    // selectedArray ['河北'] = false;
+    // selectedArray ['河南'] = false;
+    // selectedArray ['四川'] = false;
+    // selectedArray ['江苏'] = false;
+    // selectedArray ['黑龙江'] = false;
+    // selectedArray ['湖北'] = false;
+    // selectedArray ['西藏'] = false;
+    // selectedArray ['宁夏'] = false;
+    // selectedArray ['青海'] = false;
+    // selectedArray ['广东'] = false;
+    // selectedArray ['湖南'] = false;
+    // selectedArray ['陕西'] = false;
+    // selectedArray ['内蒙古'] = false;
+    // selectedArray ['云南'] = false;
+    // selectedArray ['江西'] = false;
+    // selectedArray ['浙江'] = false;
+    // selectedArray ['吉林'] = false;
+    // selectedArray ['辽宁'] = false;
+    // selectedArray ['上海'] = false;
+    // selectedArray ['重庆'] = false;
+    // selectedArray ['天津'] = false;
+    // selectedArray ['山东'] = false;
+    // selectedArray ['北京'] = false;
+    // selectedArray ['山西'] = false;
+    // selectedArray ['新疆'] = false;
+    // selectedArray ['福建'] = false;
+    // selectedArray ['大连'] = false;
+    option = null;
+    myChart.showLoading();
+    function namee(index){
+        switch (index){
+            case '重庆':return  'image://.//static//f3.png';
+            case '山东':return  'image://.//static//f3.png';
+            case '辽宁':return  'image://.//static//f3.png';
+            case '河南':return  'image://.//static//f2.png';
+            case '河北':return  'image://.//static//f2.png';
+            case '四川':return  'image://.//static//f2.png';
+            case '湖南':return  'image://.//static//f2.png';
+            case '湖北':return  'image://.//static//f2.png';
+            case '安徽':return  'image://.//static//f2.png';
+            case '内蒙古':return  'image://.//static//f2.png';
+            case '黑龙江':return  'image://.//static//f2.png';
+            case '吉林':return  'image://.//static//f2.png';
+            case '江西':return  'image://.//static//f2.png';
+            case '广东':return  'image://.//static//f5.png';
+            case '江苏':return  'image://.//static//f5.png';
+            case '浙江':return  'image://.//static//f5.png';
+            case '上海':return  'image://.//static//f5.png';
+            case '北京':return  'image://.//static//f5.png';
+            case '天津':return  'image://.//static//f5.png';
+            case '海南':return  'image://.//static//f2.png';
+            case '宁夏':return  'image://.//static//f2.png';
+            case '青海':return  'image://.//static//f2.png';
+            case '福建':return  'image://.//static//f4.png';
+            default:return 'image://.//static//f1.png';
+        }
+    }//2012年
+    $.getJSON('./json/hecore.json', function (json) {
+        myChart.hideLoading();
+        console.log(json);
+        var graph=json;
+        var categories = [
+            {
+                name: '安徽',
+            },
+            {
+                name: '甘肃',
+            },
+            {
+                name: '广西',
+            },
+            {
+                name: '贵州',
+            },
+            {
+                name: '海南',
+            },
+            {
+                name: '河北',
+            },
+            {
+                name: '河南',
+            },
+            {
+                name: '四川',
+            },
+            {
+                name: '江苏',
+            },
+            {
+                name: '黑龙江',
+            },
+            {
+                name: '湖北',
+            },
+            {
+                name: '西藏',
+            },
+            {
+                name: '宁夏',
+            },
+            {
+                name: '青海',
+            },
+            {
+                name: '湖南',
+            },
+            {
+                name: '陕西',
+            },
+            {
+                name: '内蒙古',
+            },
+            {
+                name: '云南',
+            },
+            {
+                name: '江西',
+            },
+            {
+                name: '吉林',
+            },
+            {
+                name: '新疆',
+            },
+            {
+                name: '广东',
+            },
+            {
+                name: '浙江',
+            },
+            {
+                name: '上海',
+            },
+            {
+                name: '重庆',
+            },
+            {
+                name: '天津',
+            },
+            {
+                name: '山东',
+            },
+            {
+                name: '北京',
+            },
+            {
+                name: '山西',
+            },
+            {
+                name: '辽宁',
+            },
+            {
+                name: '福建',
+            },
+            {
+                name: '大连',
+            },
+
+        ];
+        graph.nodes.forEach(function (node) {
+            node.symbol=namee(node.name);
+            node.itemStyle = null;
+            node.value = node.symbolSize;
+            node.symbolSize =node.symbolSize*10;
+            node.label = {
+                normal: {
+                    show: node.symbolSize > 0.00001
+                }
+            };
+            node.category = node.attributes.modularity_class;
+        });
+        option = {
+            title: {
+                top: 'bottom',
+                left: 'right'
+            },
+            background:'#6a8e4e',
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: [{
+                // selectedMode: 'single',
+                show:true,
+                type:'scroll',
+                normal:{
+                    label:{
+                        fontSize:30
+                    }
+                },
+                orient:'vertical',
+                left: 'left',
+                icon:'image://.//static//f5.png',
+                right: 10,
+                bottom: 0,
+                animation:true,
+                animationDurationUpdate: 1500,//数据更新动画的时长。
+                animationEasingUpdate: 'quinticInOut',//数据更新动画的缓动效果。
+                itemStyle:{
+                  decal: 'horizontal',
+                },
+                inactiveColor:'#fff',
+                //selected:selectedArray,
+                data: categories.map(function (a) {
+                    return a.name;
+                }),
+                selector: [
+                    {
+                        type: 'all or inverse',
+                        // 可以是任意你喜欢的 title
+                        title: 'all'
+                    },
+                    {
+                        type: 'inverse',
+                        title: 'del'
+                    }
+                ]
+
+            }],
+            visualMap: {
+                show:false,
+                top: 'middle',
+                right: 10,
+                color: ['white', '#b35065'],
+                min:3,
+                max:6,
+                calculable: true,
+                hoverLink:true,
+                realtime:true,
+                z:4,
+                label:{
+                    normal:{fontSize:3,}
+
+                },
+                textStyle:{
+                    color:'#fff',
+                    fontFamily:'Arial'
+                }
+            },
+            animationDurationUpdate: 1500,
+            animationEasingUpdate: 'quinticInOut',
+            series : [
+                {
+                    type: 'graph',
+                    layout: 'circular',
+                    circular: {
+                        rotateLabel: true
+                    },
+                    data: graph.nodes,
+                    links: graph.links,
+                    categories: categories,
+                    roam: true,
+                    // edgeSymbol: ['', 'arrow'],
+                    // edgeSymbolSize: [3,10],
+                    // edgeSymbolColor:[],
+                    lineStyle: {
+                        normal: {
+                            color:'#417f64',
+                            curveness: 0.3
+                        }
+                    },
+                    focusNodeAdjacency : true,//将指定的节点以及其所有邻接节点高亮。
+                    emphasis: { // 设置鼠标放在图上的圆点
+                        focus: 'adjacency',
+                        //折线图发光
+                        lineStyle: {
+                            effect: {//线特效的配置
+                                show: true,//是否显示特效。
+                                period: 6,//特效动画的时间，单位为 s。
+                                trailLength: 0.7,//特效尾迹的长度。取从 0 到 1 的值，数值越大尾迹越长。
+                                color: '#fff',//特效标记的颜色，默认取 lineStyle.color。
+                                symbolSize: 3//特效标记的大小，可以设置成诸如 10 这样单一的数字，也可以用数组分开表示高和宽，例如 [20, 10] 表示标记宽为20，高为10。
+                            },
+                            color:"#2b6d23",
+                            shadowColor: "#40ac4e", //透明的颜色
+                            shadowOffsetX: 0,
+                            shadowOffsetY: 0,
+                            opacity: 1, //透明度
+                            shadowBlur: 8, //阴影大小
+                            type: "solid", //实线
+                            width: 2,
+                            curveness: 0.2
+                        },
+
+                    }
+                }
+            ]
+        };
+        $(document).keydown(function(event){
+            if(event.keyCode === 13){//回车键 2014
+                graph.nodes.forEach(node => {
+                    switch (node.name){
+                        case '重庆':node.symbol='image://.//static//f4.png';break;
+                        case '山东':node.symbol='image://.//static//f4.png';break;
+                        case '辽宁':node.symbol='image://.//static//f4.png';break;
+                        case '河南':node.symbol='image://.//static//f3.png';break;
+                        case '河北':node.symbol='image://.//static//f3.png';break;
+                        case '四川':node.symbol='image://.//static//f3.png';break;
+                        case '湖南':node.symbol='image://.//static//f3.png';break;
+                        case '湖北':node.symbol='image://.//static//f3.png';break;
+                        case '安徽':node.symbol='image://.//static//f3.png';break;
+                        case '内蒙古':node.symbol='image://.//static//f3.png';break;
+                        case '黑龙江':node.symbol='image://.//static//f3.png';break;
+                        case '吉林':node.symbol='image://.//static//f3.png';break;
+                        case '江西':node.symbol='image://.//static//f3.png';break;
+                        case '广东':node.symbol='image://.//static//f5.png';break;
+                        case '江苏':node.symbol='image://.//static//f5.png';break;
+                        case '浙江':node.symbol='image://.//static//f5.png';break;
+                        case '上海':node.symbol='image://.//static//f5.png';break;
+                        case '北京':node.symbol='image://.//static//f5.png';break;
+                        case '天津':node.symbol='image://.//static//f5.png';break;
+                        case '海南':node.symbol='image://.//static//f3.png';break;
+                        case '宁夏':node.symbol='image://.//static//f3.png';break;
+                        case '青海':node.symbol='image://.//static//f3.png';break;
+                        case '福建':node.symbol='image://.//static//f5.png';break;
+                        default:node.symbol='image://.//static//f2.png';
+                    }
+
+                })
+                myChart.setOption(option);
+            }else if(event.keyCode === 45){//insert键 2016
+                graph.nodes.forEach(node => {
+                    //node.symbolSize=node.symbolSize+1;
+                    // switch (node.name){
+                    //     case '山东':node.symbol='image://.//static//f2.png';break;
+                    //     case '广东':break;
+                    //     case '浙江':break;
+                    //     case '安徽':break;
+                    //     default:node.symbolSize=node.symbolSize+6;node.symbol='image://.//static//f3.png';
+                    // }
+                    switch (node.name){
+                        case '重庆':node.symbol='image://.//static//f5.png';break;
+                        case '山东':node.symbol='image://.//static//f5.png';break;
+                        case '辽宁':node.symbol='image://.//static//f5.png';break;
+                        case '河南':node.symbol='image://.//static//f4.png';break;
+                        case '河北':node.symbol='image://.//static//f4.png';break;
+                        case '四川':node.symbol='image://.//static//f4.png';break;
+                        case '湖南':node.symbol='image://.//static//f4.png';break;
+                        case '湖北':node.symbol='image://.//static//f4.png';break;
+                        case '安徽':node.symbol='image://.//static//f4.png';break;
+                        case '内蒙古':node.symbol='image://.//static//f4.png';break;
+                        case '黑龙江':node.symbol='image://.//static//f4.png';break;
+                        case '吉林':node.symbol='image://.//static//f4.png';break;
+                        case '江西':node.symbol='image://.//static//f4.png';break;
+                        case '广东':node.symbol='image://.//static//f5.png';break;
+                        case '江苏':node.symbol='image://.//static//f5.png';break;
+                        case '浙江':node.symbol='image://.//static//f5.png';break;
+                        case '上海':node.symbol='image://.//static//f5.png';break;
+                        case '北京':node.symbol='image://.//static//f5.png';break;
+                        case '天津':node.symbol='image://.//static//f5.png';break;
+                        case '海南':node.symbol='image://.//static//f4.png';break;
+                        case '宁夏':node.symbol='image://.//static//f4.png';break;
+                        case '青海':node.symbol='image://.//static//f4.png';break;
+                        case '福建':node.symbol='image://.//static//f5.png';break;
+                        default:node.symbol='image://.//static//f3.png';
+                    }
+                })
+                myChart.setOption(option);
+            }else if(event.keyCode === 46){//delete键 2018
+                graph.nodes.forEach(node => {
+                    switch (node.name){
+                        // case '广东':node.symbolSize=node.symbolSize+6;node.symbol='image://.//static//f3.png';break;
+                        // case '山东':break;
+                        // case '浙江':node.symbolSize=node.symbolSize+6;node.symbol='image://.//static//f3.png';break;
+                        // case '安徽':break;
+                        // default:node.symbolSize=node.symbolSize+8;node.symbol='image://.//static//f4.png';
+                        case '重庆':node.symbol='image://.//static//f5.png';break;
+                        case '山东':node.symbol='image://.//static//f5.png';break;
+                        case '辽宁':node.symbol='image://.//static//f5.png';break;
+                        case '河南':node.symbol='image://.//static//f5.png';break;
+                        case '河北':node.symbol='image://.//static//f5.png';break;
+                        case '四川':node.symbol='image://.//static//f5.png';break;
+                        case '湖南':node.symbol='image://.//static//f5.png';break;
+                        case '湖北':node.symbol='image://.//static//f5.png';break;
+                        case '安徽':node.symbol='image://.//static//f5.png';break;
+                        case '内蒙古':node.symbol='image://.//static//f5.png';break;
+                        case '黑龙江':node.symbol='image://.//static//f5.png';break;
+                        case '吉林':node.symbol='image://.//static//f5.png';break;
+                        case '江西':node.symbol='image://.//static//f5.png';break;
+                        case '广东':node.symbol='image://.//static//f5.png';break;
+                        case '江苏':node.symbol='image://.//static//f5.png';break;
+                        case '浙江':node.symbol='image://.//static//f5.png';break;
+                        case '上海':node.symbol='image://.//static//f5.png';break;
+                        case '北京':node.symbol='image://.//static//f5.png';break;
+                        case '天津':node.symbol='image://.//static//f5.png';break;
+                        case '海南':node.symbol='image://.//static//f5.png';break;
+                        case '宁夏':node.symbol='image://.//static//f5.png';break;
+                        case '青海':node.symbol='image://.//static//f5.png';break;
+                        case '福建':node.symbol='image://.//static//f5.png';break;
+                        default:node.symbol='image://.//static//f4.png';
+                    }
+                })
+                myChart.setOption(option);
+            }else if(event.keyCode === 9){//tab键 2020
+                graph.nodes.forEach(node => {
+                    switch (node.name){
+                        case '重庆':node.symbol='image://.//static//f5.png';break;
+                        case '山东':node.symbol='image://.//static//f5.png';break;
+                        case '辽宁':node.symbol='image://.//static//f5.png';break;
+                        case '河南':node.symbol='image://.//static//f5.png';break;
+                        case '河北':node.symbol='image://.//static//f5.png';break;
+                        case '四川':node.symbol='image://.//static//f5.png';break;
+                        case '湖南':node.symbol='image://.//static//f5.png';break;
+                        case '湖北':node.symbol='image://.//static//f5.png';break;
+                        case '安徽':node.symbol='image://.//static//f5.png';break;
+                        case '内蒙古':node.symbol='image://.//static//f5.png';break;
+                        case '黑龙江':node.symbol='image://.//static//f5.png';break;
+                        case '吉林':node.symbol='image://.//static//f5.png';break;
+                        case '江西':node.symbol='image://.//static//f5.png';break;
+                        case '广东':node.symbol='image://.//static//f5.png';break;
+                        case '江苏':node.symbol='image://.//static//f5.png';break;
+                        case '浙江':node.symbol='image://.//static//f5.png';break;
+                        case '上海':node.symbol='image://.//static//f5.png';break;
+                        case '北京':node.symbol='image://.//static//f5.png';break;
+                        case '天津':node.symbol='image://.//static//f5.png';break;
+                        case '海南':node.symbol='image://.//static//f5.png';break;
+                        case '宁夏':node.symbol='image://.//static//f5.png';break;
+                        case '青海':node.symbol='image://.//static//f5.png';break;
+                        case '福建':node.symbol='image://.//static//f5.png';break;
+                        default:node.symbol='image://.//static//f5.png';
+                    }
+                    //node.symbolSize=node.symbolSize+2;
+                })
+                myChart.setOption(option);
+            }
+        });
+
+        myChart.setOption(option);
+    }, 'json');
+    option && myChart.setOption(option);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script type="text/javascript" src="./js/echarts.js"></script>
+</head>
+<body>
+<body style="">
+<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+<div id="main" style="width: 835px; height: 670px;"></div>
+</body>
+<script>
+  var chartDom = document.getElementById('main');
+  var myChart = echarts.init(chartDom);
+  var option;
+  option = {
+    xAxis: {
+      type: 'category',
+      normal:{
+        label:{
+          fontSize:20,
+        }
+      },
+      axisLabel:{
+        fontSize: 18,
+      },
+
+      axisLine:{   //轴线
+        lineStyle: {
+          color: 'green',
+          width: 5, //这里是为了突出显示加上的
+        }
+
+      },
+      axisTick:{ //轴刻度线
+        show:false
+      },
+      splitLine: { //网格线
+        show: false
+      },
+      data: [2012,2014,2016,2018,2020]
+    },
+    yAxis: {
+      color:'#fff',
+      type: 'value',
+      axisLine:{   //轴线
+        lineStyle: {
+          color: 'green',
+          width: 5, //这里是为了突出显示加上的
+        }
+      },
+      axisLabel:{
+        fontSize: 18,
+      },
+      axisTick:{ //轴刻度线
+        show:false
+      },
+      splitLine: { //网格线
+        show: false
+      },
+      offset:5,
+    },
+    toolbox: {
+      feature: {
+        saveAsImage: {}
+      }
+    },
+    series: [{
+      symbol: 'circle',     //设定为实心点
+      symbolSize: 20,   //设定实心点的大小
+      data: [25.4,18.6,12.8,5.7,1.24],
+      type: 'line',
+      //smooth:true,
+      itemStyle : {
+        normal : {
+          color:'#4da841',
+        },
+
+      },
+      lineStyle: {
+        color:"#4da841",
+        // shadowColor: "#59c037", //透明的颜色
+        // shadowOffsetX: 0,
+        // shadowOffsetY: 0,
+        opacity: 1, //透明度
+        // shadowBlur: 8, //阴影大小
+        type: "solid", //实线
+        width: 6,
+      },
+    }]
+  };
+
+  option && myChart.setOption(option);
+
+</script>
+</body>
+</html>
